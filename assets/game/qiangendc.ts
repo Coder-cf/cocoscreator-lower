@@ -9,22 +9,28 @@
 //  - [English] http://www.cocos2d-x.org/docs/creator/manual/en/scripting/life-cycle-callbacks.html
 
 const {ccclass, property} = cc._decorator;
-const SCORE = 'score';
-import  {global}  from '../global';
+
 @ccclass
 export default class NewClass extends cc.Component {
 
     @property(cc.Label)
-    highscore: cc.Label = null;
-    onLoad () {
-        let score:string = cc.sys.localStorage.getItem(SCORE);
-        this.highscore.string = score?score:'0';
-    }
+    label: cc.Label = null;
 
-    click(e,cus:string){
-        global.type = parseInt(cus);
-        cc.director.loadScene('game');
-        global.type = null;
+    @property
+    text: string = 'hello';
+
+    // LIFE-CYCLE CALLBACKS:
+
+    // onLoad () {}
+
+    start () {
+
+    }
+      // 只在两个碰撞体开始接触时被调用一次
+    onBeginContact(contact, selfCollider, otherCollider) {
+        console.log(contact)
+        cc.find('Canvas').getComponent('game').gameend(otherCollider.node.name === 'mover',otherCollider.node)
+       
     }
 
     // update (dt) {}

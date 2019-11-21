@@ -9,24 +9,33 @@
 //  - [English] http://www.cocos2d-x.org/docs/creator/manual/en/scripting/life-cycle-callbacks.html
 
 const {ccclass, property} = cc._decorator;
-import {ccc as global} from '../global';
+import {global} from '../global';
 const TAG = 'game';
+const HEIGHT = 750*2/4
+const STEP = 1
 @ccclass
 export default class NewClass extends cc.Component {
 
-    @property(cc.Label)
-    label: cc.Label = null;
+    @property(cc.Node)
+    bg: cc.Node = null;
 
     @property
-    text: string = 'hello';
-
+    currentPoint: number = 0;
     // LIFE-CYCLE CALLBACKS:
-
-    // onLoad () {}
-
-    start () {
-        console.log(TAG,global.type);
+    onLoad(){
+        cc.director.getPhysicsManager().enabled = true;
     }
+    gameend(bool:boolean,node:cc.Node){
+        if(bool){
+            node.active = false
+        }else{
+            node.parent = null
+            this.currentPoint += STEP
+        }
+    }
+    
 
-    // update (dt) {}
+    update (dt:number) {
+
+    }
 }

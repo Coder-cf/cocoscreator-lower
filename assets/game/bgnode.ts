@@ -9,22 +9,30 @@
 //  - [English] http://www.cocos2d-x.org/docs/creator/manual/en/scripting/life-cycle-callbacks.html
 
 const {ccclass, property} = cc._decorator;
-const SCORE = 'score';
-import  {global}  from '../global';
+
 @ccclass
 export default class NewClass extends cc.Component {
 
     @property(cc.Label)
-    highscore: cc.Label = null;
-    onLoad () {
-        let score:string = cc.sys.localStorage.getItem(SCORE);
-        this.highscore.string = score?score:'0';
-    }
+    label: cc.Label = null;
 
-    click(e,cus:string){
-        global.type = parseInt(cus);
-        cc.director.loadScene('game');
-        global.type = null;
+    @property
+    status:number = 0 ;
+
+    // LIFE-CYCLE CALLBACKS:
+
+    // onLoad () {}
+
+    changestatus(){
+        if(this.status === 0){
+            this.node.y -= this.node.height;
+            let label:cc.Label =    this.node.getChildByName('New Label').getComponent(cc.Label);
+            label.string = parseInt(label.string) + 2 + '';
+            this.status = 1;
+        }else{
+            this.node.y += this.node.height;
+            this.status = 0;
+        }
     }
 
     // update (dt) {}

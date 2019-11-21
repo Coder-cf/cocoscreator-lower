@@ -1,2 +1,10 @@
-var ccc= {type:-1}
-export {ccc}
+
+let global = {type:-1};
+
+export {
+    global
+}
+interface ssjkd{
+    name:string;
+    type:number;
+}
