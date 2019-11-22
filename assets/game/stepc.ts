@@ -13,24 +13,32 @@ const {ccclass, property} = cc._decorator;
 @ccclass
 export default class NewClass extends cc.Component {
 
-    @property(cc.Label)
-    label: cc.Label = null;
+    @property(cc.Widget)
+    wid: cc.Widget = null;
 
-    @property
-    text: string = 'hello';
 
     // LIFE-CYCLE CALLBACKS:
 
     // onLoad () {}
-
-    start () {
-
+    init(node:cc.Node,item,instance,time){
+        node.addChild(this.node);
+        this.node.width = item.width
+        this.node.x = item.x 
+        this.node.y =0
+        this.wid.target = node
+        if(item.istop){
+            this.wid.isAlignTop = true
+            this.wid.top = item.y
+        }else{
+            this.wid.isAlignBottom = true
+            this.wid.bottom = item.y
+        }
+        this.wid.updateAlignment()
+        let lucheng:number = Math.random()*instance
+        cc.tween(this.node).repeatForever(cc.tween()
+        .by(time/3,{position:cc.v2(-lucheng,0)})  
+        .by(time/3,{position:cc.v2(lucheng*2,0)})
+        .by(time/3,{position:cc.v2(-lucheng,0)})).start()
     }
-      // 只在两个碰撞体开始接触时被调用一次
-    onBeginContact(contact, selfCollider, otherCollider) {
-        cc.find('Canvas').getComponent('game').gameend(otherCollider.node.name === 'mover',otherCollider.node)
-       
-    }
-
     // update (dt) {}
 }

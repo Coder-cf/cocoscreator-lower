@@ -30,6 +30,9 @@ export default class NewClass extends cc.Component {
     start () {
 
     }
+    removeMine(posi){
+        this.node.position = posi
+    }
     onKeyPressed(event){
         switch(event.keyCode) {
             case cc.macro.KEY.a:
@@ -51,22 +54,6 @@ export default class NewClass extends cc.Component {
                 this.rbody.linearVelocity = cc.v2(0,0);
                 break;
         }
-    }
-    // 只在两个碰撞体开始接触时被调用一次
-    onBeginContact(contact, selfCollider, otherCollider) {
-        console.log(contact)
-    }
-
-    // 只在两个碰撞体结束接触时被调用一次
-    onEndContact (contact, selfCollider, otherCollider) {
-    }
-
-    // 每次将要处理碰撞体接触逻辑时被调用
-    onPreSolve (contact, selfCollider, otherCollider) {
-    }
-
-    // 每次处理完碰撞体接触逻辑时被调用
-    onPostSolve (contact, selfCollider, otherCollider) {
     }
 
     // update (dt) {}

@@ -13,23 +13,34 @@ const {ccclass, property} = cc._decorator;
 @ccclass
 export default class NewClass extends cc.Component {
 
-    @property(cc.Label)
-    label: cc.Label = null;
+    @property(cc.EditBox)
+    label: cc.EditBox = null;
 
-    @property
-    text: string = 'hello';
+    @property(cc.Node)
+    g2: cc.Node = null;
 
     // LIFE-CYCLE CALLBACKS:
 
     // onLoad () {}
 
     start () {
-
+        this.g2.on('touchstart',()=>{
+            this.node.x =867
+            cc.find('Canvas').getComponent('editorc').m1.active = true
+        })
     }
-      // 只在两个碰撞体开始接触时被调用一次
-    onBeginContact(contact, selfCollider, otherCollider) {
-        cc.find('Canvas').getComponent('game').gameend(otherCollider.node.name === 'mover',otherCollider.node)
-       
+    showMe(model){
+        this.label.string = JSON.stringify(model,undefined,4)
+        this.node.x = 467
+    }
+    editend(){
+        try {
+           cc.find('Canvas').getComponent('editorc').notify(JSON.parse(this.label.string))    
+        } catch (error) {
+            console.log(error)
+            cc.find('Canvas').getComponent('editorc').notify([]) 
+            this.label.string = ''
+        }
     }
 
     // update (dt) {}

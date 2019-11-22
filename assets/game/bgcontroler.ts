@@ -1,6 +1,6 @@
 
 const {ccclass, property} = cc._decorator;
-const HEIGHT = 750*2/4
+var HEIGHT = 0
 enum Status{SHOW=0,HIDE=1}
 @ccclass
 export default class NewClass extends cc.Component {
@@ -9,21 +9,30 @@ export default class NewClass extends cc.Component {
     rate: number = 10;   //一圈多久
     @property
     begin: number = 0;   //储藏
+    @property
+    time: number = 4;   //滑板时间
+    @property
+    instance: number = 100;   //滑板距离
     // LIFE-CYCLE CALLBACKS:
-
+    onLoad(){
+       cc.director.on(cc.Director.EVENT_BEFORE_DRAW,()=>{
+            HEIGHT = this.node.height/4;
+            cc.director.off(cc.Director.EVENT_BEFORE_DRAW);
+       });
+    }
     reset(){
         this.rate = 10
         this.begin = 0
     }
     update (dt:number) {
-        this.begin+=dt
-        if(this.begin >= this.rate){
-            this.node.y = -HEIGHT + HEIGHT*2
-            this.change()
-            this.begin = 0
-        }else{
-            this.node.y = -HEIGHT + HEIGHT*2*this.begin/this.rate
-        }
+        // this.begin+=dt
+        // if(this.begin >= this.rate){
+        //     this.node.y = -HEIGHT + HEIGHT*2
+        //     this.change()
+        //     this.begin = 0
+        // }else{
+        //     this.node.y = -HEIGHT + HEIGHT*2*this.begin/this.rate
+        // }
     }
     change(){
         this.node.children[0].getComponent('bgnode').changestatus();
@@ -33,20 +42,36 @@ export default class NewClass extends cc.Component {
     updaterate(num){
         if(num >= 1000){
             this.rate = 2
+            this.time = 1
+            this.instance = 30
         }else if(num >= 900){
             this.rate = 3
+            this.time = 1.2
+            this.instance = 40
         }else if(num >= 800){
             this.rate = 4
+            this.time = 1.4
+            this.instance = 100
         }else if(num >= 700){
             this.rate = 5
+            this.time = 3
+            this.instance = 70
         }else if(num >= 600){
             this.rate = 6
+            this.time = 1.6
+            this.instance = 55
         }else if(num >= 500){
             this.rate = 7
+            this.time = 1.8
+            this.instance = 50
         }else if(num >= 400){
             this.rate = 8
+            this.time = 2
+            this.instance = 60
         }else if(num >= 100){
             this.rate = 9
+            this.time = 3
+            this.instance = 70
         }
     }
 
