@@ -23,6 +23,7 @@ export default class NewClass extends cc.Component {
     init(node:cc.Node,item,instance,time){
         node.addChild(this.node);
         this.node.width = item.width
+        this.node.getComponent(cc.PhysicsBoxCollider).size.width = item.width
         this.node.x = item.x 
         this.node.y =0
         this.wid.target = node

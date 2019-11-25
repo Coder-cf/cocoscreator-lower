@@ -21,14 +21,13 @@ export default class NewClass extends cc.Component {
     text: string = 'hello';
 
     // LIFE-CYCLE CALLBACKS:
-
-    onLoad () {
+    startHandler(){
         cc.systemEvent.on(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyPressed, this);
         cc.systemEvent.on(cc.SystemEvent.EventType.KEY_UP, this.onKeyReleased, this);
     }
-
-    start () {
-
+    onDisable(){
+        cc.systemEvent.off(cc.SystemEvent.EventType.KEY_DOWN);
+        cc.systemEvent.off(cc.SystemEvent.EventType.KEY_UP);
     }
     removeMine(posi){
         this.node.position = posi

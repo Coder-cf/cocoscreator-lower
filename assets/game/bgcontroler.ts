@@ -18,21 +18,31 @@ export default class NewClass extends cc.Component {
        cc.director.on(cc.Director.EVENT_BEFORE_DRAW,()=>{
             HEIGHT = this.node.height/4;
             cc.director.off(cc.Director.EVENT_BEFORE_DRAW);
+            this.node.children[0].removeComponent(cc.Widget);
+            this.node.children[1].removeComponent(cc.Widget);
        });
+       this.enabled = false
     }
     reset(){
         this.rate = 10
         this.begin = 0
     }
+    resetGame(){
+        this.reset();
+        this.enabled = false;
+        this.node.y = -HEIGHT;
+        this.node.children[0].getComponent('bgnode').resetStatus(Status.SHOW);
+        this.node.children[1].getComponent('bgnode').resetStatus(Status.HIDE);
+    }
     update (dt:number) {
-        // this.begin+=dt
-        // if(this.begin >= this.rate){
-        //     this.node.y = -HEIGHT + HEIGHT*2
-        //     this.change()
-        //     this.begin = 0
-        // }else{
-        //     this.node.y = -HEIGHT + HEIGHT*2*this.begin/this.rate
-        // }
+        this.begin+=dt
+        if(this.begin >= this.rate){
+            this.node.y = -HEIGHT + HEIGHT*2
+            this.change()
+            this.begin = 0
+        }else{
+            this.node.y = -HEIGHT + HEIGHT*2*this.begin/this.rate
+        }
     }
     change(){
         this.node.children[0].getComponent('bgnode').changestatus();

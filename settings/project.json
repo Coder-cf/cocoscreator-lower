@@ -2,8 +2,9 @@
   "group-list": [
     "default",
     "mover",
-    "stepend",
-    "step"
+    "steptop",
+    "step",
+    "stepbottom"
   ],
   "collision-matrix": [
     [
@@ -15,6 +16,7 @@
       true,
       false,
       true,
+      true,
       true
     ],
     [
@@ -27,6 +29,13 @@
       false,
       true,
       true,
+      false
+    ],
+    [
+      false,
+      true,
+      false,
+      false,
       false
     ]
   ],
@@ -53,6 +62,5 @@
     "live": {
       "enable": false
     }
-  },
-  "start-scene": "current"
+  }
 }
