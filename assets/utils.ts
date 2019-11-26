@@ -8,11 +8,11 @@ var  a = {
             if(item.getComponent('bgnode').status === num){
                     for(let i=1,j=item.children.length;i<j;i++){
                         let one = item.children[i];
-                        let _posi:cc.Vec2 = _node.parent.convertToNodeSpaceAR(item.convertToWorldSpaceAR(cc.v2(one.x,one.y+HEIGHT)))
+                        let _posi:cc.Vec2 = item.convertToWorldSpaceAR(cc.v2(one.x,one.y+HEIGHT + 10))
                         if(this._isSafe(_posi.y,one)){
-                          let __node =   cc.find('Canvas/mover');
+                          let __node =   cc.find('mover');
                           __node.getComponent('mover').removeMine(_posi)
-                          __node.getComponent(cc.RigidBody).linearVelocity = cc.v2(0,0);
+                        //   __node.getComponent(cc.RigidBody).linearVelocity = cc.v2(0,0);
                           __node.active = true
                             return
                         }
@@ -22,7 +22,7 @@ var  a = {
         }
     },
     _isSafe(y,node){
-       return y + INSTANCE < node.parent.height/2-10
+       return y + INSTANCE  < node.parent.height-10
     }
 }
 export default a

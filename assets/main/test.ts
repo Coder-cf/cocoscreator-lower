@@ -21,18 +21,17 @@ export default class NewClass extends cc.Component {
 
     // LIFE-CYCLE CALLBACKS:
 
-    // onLoad () {}
-
-    start () {
-
-    }
-      // 只在两个碰撞体开始接触时被调用一次
-    onBeginContact(contact, selfCollider, otherCollider) {
-        cc.find('Canvas').getComponent('game').gameend(otherCollider.node.name === 'mover',otherCollider.node)
+    onLoad () {
        
     }
-    onCollisionEnter(otherCollider,self) {
-        cc.find('Canvas').getComponent('game').gameend(otherCollider.node.name === 'mover',otherCollider.node)
+    onCollisionEnter(other,self) {
+        console.log('on collision enter');
+    }
+    onCollisionStay(other,self) {
+        console.log('on collision stay');
+    }
+    onCollisionExit(other,self) {
+        console.log('on collision exit');
     }
 
     // update (dt) {}

@@ -24,7 +24,6 @@ export default class NewClass extends cc.Component {
     click(e,cus:string){
         global.type = parseInt(cus);
         cc.director.loadScene('game');
-        global.type = null;
     }
 
     // update (dt) {}

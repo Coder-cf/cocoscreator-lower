@@ -22,7 +22,11 @@ export default class NewClass extends cc.Component {
     @property(cc.Node)
     exit: cc.Node = null;
     @property(cc.Node)
+    mover: cc.Node = null;
+    @property(cc.Node)
     endView: cc.Node = null;
+    @property
+    type: number = -1;
     @property(cc.Label)
     label: cc.Label = null;
     @property(cc.Label)
@@ -42,15 +46,26 @@ export default class NewClass extends cc.Component {
 
     // LIFE-CYCLE CALLBACKS:
     onLoad(){
-        cc.director.getPhysicsManager().enabled = true;
-        // cc.director.getPhysicsManager().debugDrawFlags = 
-        // cc.PhysicsManager.DrawBits.e_aabbBit
-        //  | cc.PhysicsManager.DrawBits.e_pairBit 
-        //  | cc.PhysicsManager.DrawBits.e_centerOfMassBit
-        //  | cc.PhysicsManager.DrawBits.e_jointBit 
-        //  | cc.PhysicsManager.DrawBits.e_shapeBit
-        ;
-
+        this.type = global.type;
+        if(global.type === 1){
+            cc.director.getPhysicsManager().enabled = true;
+            // cc.director.getPhysicsManager().debugDrawFlags = 
+            // cc.PhysicsManager.DrawBits.e_aabbBit
+            //  | cc.PhysicsManager.DrawBits.e_pairBit 
+            //  | cc.PhysicsManager.DrawBits.e_centerOfMassBit
+            //  | cc.PhysicsManager.DrawBits.e_jointBit 
+            //  | cc.PhysicsManager.DrawBits.e_shapeBit;
+            for(let item of cc.find('Canvas/qiangs').children){
+                item.getComponent(cc.PhysicsBoxCollider).enabled = true
+            }
+        }else{
+            cc.director.getCollisionManager().enabled = true;
+            // cc.director.getCollisionManager().enabledDebugDraw  = true;
+            // cc.director.getCollisionManager().enabledDrawBoundingBox = true;
+            for(let item of cc.find('Canvas/qiangs').children){
+                item.getComponent(cc.BoxCollider).enabled = true
+            }
+        }
         this.exit.on('touchstart',()=>{
             cc.director.loadScene('main');
         });
@@ -68,7 +83,7 @@ export default class NewClass extends cc.Component {
             if(time--===0){
                 self.daojishi.node.active = false
                 utils.chooseThenextusefulOne(0);
-                self.node.getChildByName('mover').getComponent('mover').startHandler() 
+                self.mover.getComponent('mover').startHandler() 
                 self.bg.getComponent('bgcontroler').enabled = true
             }else{
                 self.daojishi.string = time+1;
@@ -92,7 +107,7 @@ export default class NewClass extends cc.Component {
         cc.director.resume();
         if(cus === '0'){
             utils.chooseThenextusefulOne(0);
-            this.node.getChildByName('mover').getComponent('mover').startHandler(); 
+            this.mover.getComponent('mover').startHandler(); 
         }else{
             this.currentPoint = 0
             this.bg.getComponent('bgcontroler').resetGame()

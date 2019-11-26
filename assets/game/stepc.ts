@@ -20,10 +20,16 @@ export default class NewClass extends cc.Component {
     // LIFE-CYCLE CALLBACKS:
 
     // onLoad () {}
-    init(node:cc.Node,item,instance,time){
+    init(node:cc.Node,item,instance,time,type){
         node.addChild(this.node);
         this.node.width = item.width
-        this.node.getComponent(cc.PhysicsBoxCollider).size.width = item.width
+        if(type === 0){
+            this.node.getComponent(cc.BoxCollider).enabled = true
+            this.node.getComponent(cc.BoxCollider).size.width = item.width
+        }else{
+            this.node.getComponent(cc.PhysicsBoxCollider).enabled = true
+            this.node.getComponent(cc.PhysicsBoxCollider).size.width = item.width
+        }
         this.node.x = item.x 
         this.node.y =0
         this.wid.target = node

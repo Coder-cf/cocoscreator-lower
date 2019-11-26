@@ -9,7 +9,7 @@
 //  - [English] http://www.cocos2d-x.org/docs/creator/manual/en/scripting/life-cycle-callbacks.html
 
 const {ccclass, property} = cc._decorator;
-
+import {global} from './../global';
 @ccclass
 export default class NewClass extends cc.Component {
 
@@ -30,7 +30,7 @@ export default class NewClass extends cc.Component {
         let _com = this.node.parent.getComponent('bgcontroler')
         for(let item of items){
             let _node:cc.Node = cc.instantiate(this.step)
-            _node.getComponent('stepc').init(this.node,item,_com.instance,_com.time)
+            _node.getComponent('stepc').init(this.node,item,_com.instance,_com.time,global.type)
         }
     }
     onEnable(){
