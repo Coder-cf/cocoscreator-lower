@@ -22,9 +22,9 @@ export default class NewClass extends cc.Component {
     @property
     maxSpeed: cc.Vec2 = cc.v2(2000, 2000);
     @property
-    gravity:number =  -120;
+    gravity:number =  -640;
     @property
-    drag:number = 120;
+    drag:number = 1000;
     @property
     direction:number =  0;
     @property
@@ -33,8 +33,8 @@ export default class NewClass extends cc.Component {
     collisionX:number = 0;
     @property
     collisionY:number = 0;
-    // @property
-    // jumpSpeed:number = 300;
+    @property
+    jumpSpeed:number = 600;
     @property
     jumping:boolean = true;
     @property
@@ -86,19 +86,18 @@ export default class NewClass extends cc.Component {
                 this.direction = 1;  
             }
                 break;
-            // case cc.macro.KEY.w:
-            // case cc.macro.KEY.up:
-            //     if(global.type){
-            //         this.rbody.linearVelocity =cc.v2(this.rbody.linearVelocity.x,this.jumpSpeed);
-            //         console.log(this.rbody.linearVelocity);
-            //     }else{
-            //         this.direction = 1;  
-            //         if (!this.jumping) {
-            //             this.jumping = true;
-                    
-            //         }
-            //     }
-            //     break;
+            case cc.macro.KEY.w:
+            case cc.macro.KEY.up:
+                if (!this.jumping) {
+                    this.jumping = true;
+                    if(global.type){
+                        this.rbody.linearVelocity =cc.v2(this.rbody.linearVelocity.x,this.jumpSpeed);
+                    }else{
+                        this.speed.y = this.jumpSpeed > this.maxSpeed.y ? this.maxSpeed.y : this.jumpSpeed;    
+                        this._lastSpeedY = this.jumpSpeed > this.maxSpeed.y ? this.maxSpeed.y : this.jumpSpeed;
+                    }
+                }
+                break;
         }
     }
     onKeyReleased(event){
@@ -153,16 +152,32 @@ export default class NewClass extends cc.Component {
                 this.node.y = otherPreAabb.yMax + this.node.height/2;
                 this.jumping = false;
                 this.collisionY = -1;
+            }else if (this.speed.y > 0 && (selfPreAabb.yMin < otherPreAabb.yMin)) {
+                this.node.y = otherPreAabb.yMin - this.node.height/2;
+                this.collisionY = 1;
             }
-            // else if (this.speed.y > 0 && (selfPreAabb.yMin < otherPreAabb.yMin)) {
-            //     this.node.y = otherPreAabb.yMin - selfPreAabb.height - this.node.parent.y;
-            //     this.collisionY = 1;
-            // }
             
             this.speed.y = 0;
             this._lastSpeedY = 0;
             other.touchingY = true;
         }    
+    }
+     // 只在两个碰撞体开始接触时被调用一次
+    onBeginContact(contact,selfCollider,otherCollider) {
+        let _node:cc.Node = otherCollider.node;
+        if(_node.group === 'step'){
+                if( contact.getManifold().localPoint.y === 20){
+                    this.jumping = false;
+                    otherCollider.touchingY = true;
+                }
+        }
+    }
+    // 只在两个碰撞体结束接触时被调用一次
+    onEndContact(contact,selfCollider,otherCollider) {
+        if (otherCollider.touchingY) {
+            otherCollider.touchingY = false;
+            this.jumping = true;
+        }
     }
     onCollisionStay(other,self) {
         if (this.collisionY === -1) {
@@ -217,7 +232,12 @@ export default class NewClass extends cc.Component {
             this.speed.x = 0;
         }
         this.node.x += this.speed.x * dt;
-        this.node.y += (this._lastSpeedY + this.speed.y) * dt / 2;
+        if (this._lastSpeedY === 0 || this.speed.y === 0 || this._lastSpeedY / Math.abs(this._lastSpeedY) === this.speed.y / Math.abs(this.speed.y)) {
+            this.node.y += (this._lastSpeedY + this.speed.y) * dt / 2;
+        }
+        else {
+            this.node.y +=  - this._lastSpeedY / this.gravity / 2 * this._lastSpeedY + this.speed.y / this.gravity / 2 * this.speed.y; 
+        } 
         this._lastSpeedY = this.speed.y;
     }
 }

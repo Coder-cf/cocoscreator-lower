@@ -3249,12 +3249,13 @@
       "x": 2000,
       "y": 2000
     },
-    "gravity": -1000,
+    "gravity": -640,
     "drag": 1000,
     "direction": 0,
     "_lastSpeedY": 0,
     "collisionX": 0,
     "collisionY": 0,
+    "jumpSpeed": 300,
     "jumping": true,
     "text": "hello",
     "_id": "9458CGLTVL6I37UtQjvJA0"
